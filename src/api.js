@@ -9,11 +9,24 @@ const api = {
         body: JSON.stringify(data),
       });
 
-      const responseData = await response.json(); // Получаем тело ответа
+      let responseData; // Получаем тело ответа
+
+      try {
+        responseData = await response.json();
+      } catch (jsonError) {
+        console.error("Error parsing JSON:", jsonError);
+        throw new Error(`Unexpected response from server: ${response.status} ${response.statusText}`);
+      }
 
       if (!response.ok) {
         // Если HTTP статус код не в диапазоне 200-299, выбрасываем ошибку
-        throw new Error(responseData.message || `Registration failed with status ${response.status}`);
+        const error = new Error(responseData.error?.message || `Registration failed with status ${response.status}`);
+        error.error = {
+          code: responseData.error?.code,
+          message: responseData.error?.message,
+          errors: responseData.error?.errors,
+        };
+        throw error;
       }
 
       // Возвращаем тело ответа

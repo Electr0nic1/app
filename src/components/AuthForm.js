@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import {useAuth} from "../context";
 import {ErrorMessage} from "../url";
-import { useNavigate } from 'react-router-dom';
-import api from '../api';
 
 
-const AuthForm = ({onSubmit}) => {
-  const navigate = useNavigate();
+const AuthForm = ({ onRegister }) => { // onRegister вместо onSubmit
   const [error, setError] = useState(null);
-  const [backendValidationErrors, setBackendValidationErrors] = useState({}); // Состояние для ошибок с бэкенда
+  const [backendValidationErrors, setBackendValidationErrors] = useState({});
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -18,51 +14,24 @@ const AuthForm = ({onSubmit}) => {
     birth_date: '',
   });
 
-  const handleRegistration = async (data) => {
-    setError(null);
-    setBackendValidationErrors({})
-
-    try {
-      const responseData = await api.register(data);
-
-      console.log("Registration successful:", responseData);
-      navigate('/login'); 
-
-    } catch (err) {
-      // Обрабатываем ошибки, которые произошли в api.register
-      console.error("Registration error:", err);
-
-      if (err?.error?.errors) {
-        setBackendValidationErrors(err.error.errors);
-        console.log(backendValidationErrors)
-      }
-
-      // Проверяем, есть ли в ошибке данные о валидации (предполагаем, что бэкенд возвращает их в формате responseData.errors)
-      if (err?.error?.message) {
-        setError(err.error.message);
-        console.log(error)
-      } else {
-        console.log(error)
-        setError('Registration failed. Please try again.');
-      }
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(null);
+    setBackendValidationErrors({});
 
-    // Собираем данные из формы
-    const formData = {
-      first_name: event.target.first_name.value,
-      last_name: event.target.last_name.value,
-      patronymic: event.target.patronymic.value,
-      email: event.target.email.value,
-      password: event.target.password.value,
-      birth_date: event.target.birth_date.value,
-    };
+    // Отправляем данные на сервер через функцию, переданную из Registration
+    const err = await onRegister(formData);  // onRegister вместо handleRegistration
 
-    // Вызываем функцию для отправки данных на сервер
-    await handleRegistration(formData);
+    if(err && err?.error?.errors) {
+        setBackendValidationErrors(err.error.errors);
+      }
+
+      // Если есть общее сообщение об ошибке, показываем его
+    if (err && err?.error?.message) {
+        setError(err.error.message);
+      } else if (err) {
+        setError('Registration failed. Please try again.');
+      }
   };
 
   const handleChange = (e) => {
@@ -96,7 +65,7 @@ const AuthForm = ({onSubmit}) => {
             type="text"
             value={formData.last_name}
             onChange={handleChange}
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.last_name ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
           {backendValidationErrors.last_name && (
                 <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.last_name)}</p>
@@ -115,8 +84,13 @@ const AuthForm = ({onSubmit}) => {
             id="name"
             name="first_name"
             type="text"
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            value={formData.first_name}
+            onChange={handleChange}
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.first_name ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
+          {backendValidationErrors.first_name && (
+                <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.first_name)}</p>
+          )}
         </div>
       </div>
       <div>
@@ -131,8 +105,13 @@ const AuthForm = ({onSubmit}) => {
             id="patronymic"
             name="patronymic"
             type="text"
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            value={formData.patronymic}
+            onChange={handleChange}
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.patronymic ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
+          {backendValidationErrors.patronymic && (
+                <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.patronymic)}</p>
+          )}
         </div>
       </div>
       <div>
@@ -147,8 +126,13 @@ const AuthForm = ({onSubmit}) => {
             id="email"
             name="email"
             type="email"
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            value={formData.email}
+            onChange={handleChange}
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.email ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
+          {backendValidationErrors.email && (
+                <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.email)}</p>
+          )}
         </div>
       </div>
       <div>
@@ -163,8 +147,13 @@ const AuthForm = ({onSubmit}) => {
             id="b_date"
             name="birth_date"
             type="date"
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            value={formData.birth_date}
+            onChange={handleChange}
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.birth_date ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
+          {backendValidationErrors.birth_date && (
+                <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.birth_date)}</p>
+          )}
         </div>
       </div>
       <div>
@@ -181,8 +170,13 @@ const AuthForm = ({onSubmit}) => {
             id="password"
             name="password"
             type="password"
-            className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            value={formData.password}
+            onChange={handleChange}
+            className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.password ? 'border-red-500 ring-red-500 focus:ring-red-500' : 'ring-gray-300 focus:ring-sky-600'}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
           />
+          {backendValidationErrors.password && (
+                <p className="text-red-500 text-xs italic">{ErrorMessage(backendValidationErrors.password)}</p>
+          )}
         </div>
       </div>
       <div>
@@ -196,7 +190,6 @@ const AuthForm = ({onSubmit}) => {
     </form>
   </div>
 </div>
-
   );
 };
 
