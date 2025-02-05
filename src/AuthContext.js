@@ -7,25 +7,35 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Флаг загрузки
 
   useEffect(() => {
-    // Проверка авторизации при загрузке компонента
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token'); // Или другой способ получения токена
+        const token = localStorage.getItem('token');
         if (token) {
-          // Запрос к бэкенду для проверки токена
           const response = await fetch('/api/user', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           });
 
-          if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-          } else {
-            localStorage.removeItem('token'); // Удаляем невалидный токен
-            setUser(null);
+          if (!response.ok) {
+            console.error(`Authentication failed: ${response.status} ${response.statusText}`);
+            // Попытка распарсить JSON, даже если статус не 200
+            try {
+              const errorData = await response.json();
+              console.error('Error data:', errorData);
+              // Обработать ошибку, например, вывести сообщение пользователю
+              localStorage.removeItem('token');
+              setUser(null);
+            } catch (jsonError) {
+              console.error('Error parsing error response:', jsonError);
+              // Обработать ошибку парсинга JSON
+              localStorage.removeItem('token');
+              setUser(null);
+            }
+            return;
           }
+
+          const responseData = await response.json();
+          // Доступ к данным пользователя теперь через responseData.data.user
+          setUser(responseData.data.user);
         } else {
           setUser(null);
         }

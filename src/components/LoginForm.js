@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api'; // Предполагается, что у вас есть api.js
 import { ErrorMessage } from "../url";
+import AuthContext from '../AuthContext';
 
 const LoginForm = () => {
+    const {login} = useContext(AuthContext) 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -29,10 +31,12 @@ const LoginForm = () => {
       console.log("Login successful:", responseData);
 
       // Сохраняем токен в localStorage или другом месте
-      localStorage.setItem('token', responseData.token);
+      await login(responseData.data.user)
 
       // Перенаправляем пользователя на защищенную страницу
-      navigate('/gagarin');
+      setTimeout(() => {
+        navigate('/gagarin'); // Или на другую страницу, куда нужно перенаправить после логина
+      }, 0);
 
     } catch (err) {
         
