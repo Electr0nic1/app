@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthForm from '../components/AuthForm';
+import RegistrationForm from '../components/RegistrationForm';
 import api from '../api';
 import Header from '../components/Header';
 
@@ -21,7 +21,7 @@ const Registration = () => {
   return (
     <>
         <Header />
-        <AuthForm onRegister={handleRegistration} />
+        <RegistrationForm onRegister={handleRegistration} />
     </>
   );
 };

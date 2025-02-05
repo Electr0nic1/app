@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {ErrorMessage} from "../url";
 
 
-const AuthForm = ({ onRegister }) => { // onRegister вместо onSubmit
+const RegistrationForm = ({ onRegister }) => { // onRegister вместо onSubmit
   const [error, setError] = useState(null);
   const [backendValidationErrors, setBackendValidationErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -193,4 +193,4 @@ const AuthForm = ({ onRegister }) => { // onRegister вместо onSubmit
   );
 };
 
-export default AuthForm;
+export default RegistrationForm;
