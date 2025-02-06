@@ -1,4 +1,4 @@
-const TOKEN_KEY = 'kosmos_token';
+const TOKEN_KEY = "kosmos_token";
 
 const auth = {
   getToken() {

@@ -1,8 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import RegistrationForm from '../components/RegistrationForm';
-import api from '../api';
-import Header from '../components/Header';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import RegistrationForm from "../components/RegistrationForm";
+import api from "../api";
+import Header from "../components/Header";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Registration = () => {
     try {
       const responseData = await api.register(data);
       console.log("Registration successful:", responseData);
-      navigate('/login'); 
+      navigate("/login");
     } catch (err) {
       // Обрабатываем ошибки, которые произошли в api.register
       return err;
@@ -20,8 +20,8 @@ const Registration = () => {
 
   return (
     <>
-        <Header />
-        <RegistrationForm onRegister={handleRegistration} />
+      <Header />
+      <RegistrationForm onRegister={handleRegistration} />
     </>
   );
 };

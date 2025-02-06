@@ -2,7 +2,7 @@
   "name": "reactt",
   "version": "0.1.0",
   "private": true,
-  "homepage":  "http://juippre-m3.prof.ru/",
+  "homepage": "http://juippre-m3.prof.ru/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",

@@ -2,11 +2,11 @@ import React from "react";
 import Header from "../components/Header";
 
 const Missions = () => {
-    return (
-        <>
-            <Header />
-        </>
-    )
-}
+  return (
+    <>
+      <Header />
+    </>
+  );
+};
 
-export default Missions
+export default Missions;

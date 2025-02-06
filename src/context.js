@@ -1,68 +1,72 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {url} from "./url";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { url } from "./url";
 
 const Context = createContext({
-    token: null,
-    login: () => {
-    },
-    register: () => {
-    },
-    logout: () => {
-    },
-})
+  token: null,
+  login: () => {},
+  register: () => {},
+  logout: () => {},
+});
 
-export const Provider = ({children}) => {
-    const [token, setToken] = useState(localStorage.getItem('token') || null)
+export const Provider = ({ children }) => {
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-    const login = async (email, password) => {
-        const res = await fetch(url + "/authorization", {
-            method: "post",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                email, password
-            })
-        })
+  const login = async (email, password) => {
+    const res = await fetch(url + "/authorization", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-        if(res.status > 299 || res.status < 200) {
-            throw await res.json()
-        }
-
-        setToken((await res.json()).data.token)
-
+    if (res.status > 299 || res.status < 200) {
+      throw await res.json();
     }
 
-    useEffect(() => {
-        localStorage.setItem('token', token || '')
-    }, [token])
+    setToken((await res.json()).data.token);
+  };
 
-    const register = async (data) => {
-        const res = await fetch(url + "/registration", {
-            method: "post",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+  useEffect(() => {
+    localStorage.setItem("token", token || "");
+  }, [token]);
 
-        if(res.status > 299 || res.status < 200) {
-            throw await res.json()
-        }
+  const register = async (data) => {
+    const res = await fetch(url + "/registration", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-        return res.json()
+    if (res.status > 299 || res.status < 200) {
+      throw await res.json();
     }
 
-    const logout = () => {
-        setToken(null)
-        window.location.replace("/#/login")
-    }
+    return res.json();
+  };
 
-    return <Context.Provider value={{
-        token, login, register, logout
-    }}>
-        {children}
+  const logout = () => {
+    setToken(null);
+    window.location.replace("/#/login");
+  };
+
+  return (
+    <Context.Provider
+      value={{
+        token,
+        login,
+        register,
+        logout,
+      }}
+    >
+      {children}
     </Context.Provider>
-}
+  );
+};
 
-export const useAuth = () =>  useContext(Context)
+export const useAuth = () => useContext(Context);
