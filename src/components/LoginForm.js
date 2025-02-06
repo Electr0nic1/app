@@ -1,15 +1,15 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../api"; // Предполагается, что у вас есть api.js
-import { ErrorMessage } from "../url";
-import AuthContext from "../AuthContext";
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api'; // Предполагается, что у вас есть api.js
+import { ErrorMessage } from '../url';
+import AuthContext from '../AuthContext';
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const [error, setError] = useState(null);
   const [backendValidationErrors, setBackendValidationErrors] = useState({});
@@ -28,14 +28,14 @@ const LoginForm = () => {
 
     try {
       const responseData = await api.login(formData); // Запрос на логин к бэкенду
-      console.log("Login successful:", responseData);
+      console.log('Login successful:', responseData);
 
       // Сохраняем токен в localStorage или другом месте
       await login(responseData.data);
 
       // Перенаправляем пользователя на защищенную страницу
       setTimeout(() => {
-        navigate("/gagarin"); // Или на другую страницу, куда нужно перенаправить после логина
+        navigate('/gagarin'); // Или на другую страницу, куда нужно перенаправить после логина
       }, 0);
     } catch (err) {
       if (err?.error?.errors) {
@@ -46,7 +46,7 @@ const LoginForm = () => {
       if (err && err?.error?.message) {
         setError(err.error.message);
       } else if (err) {
-        setError("Login failed. Please try again.");
+        setError('Login failed. Please try again.');
       }
     }
   };
@@ -60,17 +60,9 @@ const LoginForm = () => {
       </div>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            className="space-y-6"
-            action="#"
-            method="POST"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Электронная почта
               </label>
               <div className="mt-2">
@@ -82,8 +74,8 @@ const LoginForm = () => {
                   onChange={handleChange}
                   className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${
                     backendValidationErrors.email
-                      ? "border-red-500 ring-red-500 focus:ring-red-500"
-                      : "ring-gray-300 focus:ring-sky-600"
+                      ? 'border-red-500 ring-red-500 focus:ring-red-500'
+                      : 'ring-gray-300 focus:ring-sky-600'
                   }  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
                 />
                 {backendValidationErrors.email && (
@@ -112,8 +104,8 @@ const LoginForm = () => {
                   onChange={handleChange}
                   className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${
                     backendValidationErrors.password
-                      ? "border-red-500 ring-red-500 focus:ring-red-500"
-                      : "ring-gray-300 focus:ring-sky-600"
+                      ? 'border-red-500 ring-red-500 focus:ring-red-500'
+                      : 'ring-gray-300 focus:ring-sky-600'
                   }  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
                 />
                 {backendValidationErrors.password && (
@@ -124,11 +116,7 @@ const LoginForm = () => {
               </div>
             </div>
 
-            {error && (
-              <p className="text-red-500 text-xs italic">
-                {ErrorMessage(error)}
-              </p>
-            )}
+            {error && <p className="text-red-500 text-xs italic">{ErrorMessage(error)}</p>}
 
             <div>
               <button

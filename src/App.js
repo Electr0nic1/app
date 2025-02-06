@@ -1,17 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./AuthContext";
-import RequireAuth from "./auth/RequireAuth";
-import Home from "./pages/Home";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
-import Gagarin from "./pages/Gagarin";
-import Missions from "./pages/Missions";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
+import RequireAuth from './auth/RequireAuth';
+import Home from './pages/Home';
+import Registration from './pages/Registration';
+import Login from './pages/Login';
+import Gagarin from './pages/Gagarin';
+import Missions from './pages/Missions';
 // import MoonOrder from './pages/MoonOrder';
 // import FlightList from './pages/FlightList';
 // import Search from './pages/Search';
-// import MissionAdd from "./pages/MissionAdd";
-// import MissionEdit from "./pages/MissionEdit";
+// import MissionAdd from './pages/MissionAdd';
+import MissionEdit from './pages/MissionEdit';
 
 const App = () => {
   return (
@@ -41,7 +41,8 @@ const App = () => {
         <Route path="/flights" element={<RequireAuth><FlightList /></RequireAuth>} />
         <Route path="/search" element={<RequireAuth><Search /></RequireAuth>} />
         <Route path="/add-mission" element={<RequireAuth><MissionAdd /></RequireAuth>} />
-        <Route path="/edit-mission/:missionId" element={<RequireAuth><MissionEdit /></RequireAuth>} /> */}
+        */}
+        <Route path="/edit-mission/:id" element={<RequireAuth><MissionEdit /></RequireAuth>} /> 
         </Routes>
       </Router>
     </AuthProvider>
