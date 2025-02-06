@@ -3,7 +3,6 @@ import {ErrorMessage} from "../url";
 
 
 const RegistrationForm = ({ onRegister }) => { // onRegister вместо onSubmit
-  const [error, setError] = useState(null);
   const [backendValidationErrors, setBackendValidationErrors] = useState({});
   const [formData, setFormData] = useState({
     first_name: '',
@@ -16,7 +15,6 @@ const RegistrationForm = ({ onRegister }) => { // onRegister вместо onSubm
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null);
     setBackendValidationErrors({});
 
     // Отправляем данные на сервер через функцию, переданную из Registration
@@ -24,13 +22,6 @@ const RegistrationForm = ({ onRegister }) => { // onRegister вместо onSubm
 
     if(err && err?.error?.errors) {
         setBackendValidationErrors(err.error.errors);
-      }
-
-      // Если есть общее сообщение об ошибке, показываем его
-    if (err && err?.error?.message) {
-        setError(err.error.message);
-      } else if (err) {
-        setError('Registration failed. Please try again.');
       }
   };
 

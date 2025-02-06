@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import auth from '../auth';
+import { Link } from 'react-router-dom';
 import logo from '../assets/img/logo.jpg'
 import AuthContext from '../AuthContext';
 
@@ -51,10 +50,10 @@ const Header = () => {
           <Link to="/" className="text-sm font-semibold leading-6 text-gray-900">
         Заказ на Луне
       </Link>
-      <Link to="/" className="text-sm font-semibold leading-6 text-gray-900">
+      <Link to="/gagarin" className="text-sm font-semibold leading-6 text-gray-900">
         Гагарин
       </Link>
-      <Link to="/" className="text-sm font-semibold leading-6 text-gray-900">
+      <Link to="/missions" className="text-sm font-semibold leading-6 text-gray-900">
         Миссии
       </Link> 
       <Link to="/" className="text-sm font-semibold leading-6 text-gray-900">

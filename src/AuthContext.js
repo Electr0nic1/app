@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } catch (error) {
-        console.error('Error checking authentication:', error);
+        // console.error('Error checking authentication:');
         setUser(null);
       } finally {
         setLoading(false);
@@ -50,10 +50,10 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
+  const login = (data) => {
+    setUser(data.user);
     // Сохраните токен в localStorage
-    localStorage.setItem('token', userData.token); // Или другой способ сохранения данных
+    localStorage.setItem('token', data.token); // Или другой способ сохранения данных
   };
 
   const logout = () => {
