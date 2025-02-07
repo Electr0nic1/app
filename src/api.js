@@ -246,6 +246,79 @@ const api = {
     }
   },
 
+  async addMission(mission) {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        const error = new Error(
+          "Токен не найден. Пользователь не авторизован.",
+        );
+        error.error = {
+          code: 401,
+          message: "Токен не предоставлен",
+        };
+        throw error;
+      }
+
+      const response = await fetch(`${url}/lunar-missions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(mission), 
+      });
+
+      let responseData;
+
+      try {
+        responseData = await response.json();
+      } catch (jsonError) {
+        console.error("Error parsing JSON:", jsonError);
+        throw new Error(
+          `Unexpected response from server: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      if (!response.ok) {
+        let errorMessage;
+        let errorCode;
+        let errors = null;
+
+        if (response.status === 401) {
+          // Для 401 используем message напрямую из responseData
+          errorMessage =
+            responseData.message ||
+            `Mission failed with status ${response.status}`;
+          errorCode = responseData.code;
+        } else {
+          // Для других ошибок используем структуру responseData.error
+          errorMessage =
+            responseData.error?.message ||
+            `Mission failed with status ${response.status}`;
+          errorCode = responseData.error?.code;
+          errors = responseData.error?.errors;
+        }
+
+        const error = new Error(errorMessage);
+        error.error = {
+          code: errorCode,
+          message: errorMessage,
+          errors: errors,
+        };
+
+        console.log(error);
+        throw error;
+      }
+
+      return responseData;
+    } catch (error) {
+      console.error("Error fetching Gagarin data:", error);
+      throw error;
+    }
+  },
+
   async getMission(id) {
     try {
       const token = localStorage.getItem("token");
@@ -318,6 +391,8 @@ const api = {
     }
   },
 
+
+
   async updateMission(mission) {
     try {
       const token = localStorage.getItem("token");
@@ -333,7 +408,7 @@ const api = {
         throw error;
       }
 
-      const response = await fetch(`${url}/lunar-missions/${mission.id}`, {
+      const response = await fetch(`${url}/lunar-missions/${mission.mission.id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -386,12 +461,12 @@ const api = {
 
       return responseData;
     } catch (error) {
-      console.error("Error fetching Gagarin data:", error);
+      console.error("Error fetching mission data:", error);
       throw error;
     }
   },
 
-  
+
 
 
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../api';
 import Header from '../components/Header';
 import MissionItem from '../components/MissionItem';
+import { Link } from 'react-router-dom';
 
 const Missions = () => {
   const [missions, setMissions] = useState([]);
@@ -10,7 +11,6 @@ const Missions = () => {
     const fetchData = async () => {
       try {
         const data = await api.getMissions();
-        console.log(data);
         setMissions(data);
       } catch (error) {
         console.log('Error fetching Missions data in component:', error);
@@ -24,11 +24,11 @@ const Missions = () => {
     <>
       <Header />
       <div className="container mt-10 sm:mx-auto sm:w-full sm:max-w-2xl">
-        <button className="bg-sky-500 text-white py-2 px-2 rounded shadow-md hover:bg-sky-600 mb-4">
+        <Link className="bg-sky-500 text-white py-2 px-2 rounded shadow-md hover:bg-sky-600 mb-4" to='/add-mission'>
           Добавить миссию
-        </button>
-        {missions.map((mission, index) => (
-          <MissionItem key={index} mission={mission} />
+        </Link>
+        {missions.map((mission) => (
+          <MissionItem key={mission.mission.id} mission={mission} />
         ))}
       </div>{' '}
     </>

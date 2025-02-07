@@ -14,8 +14,7 @@ const MissionItem = ({ mission, onDelete }) => {
   };
 
   const handleEdit = () => {
-    console.log(mission)
-    navigate(`/edit-mission/${mission.id}`);
+    navigate(`/edit-mission/${mission.mission.id}`);
   };
 
   return (
@@ -24,7 +23,7 @@ const MissionItem = ({ mission, onDelete }) => {
         <h2 className="text-base font-semibold leading-7 text-sky-600 text-xl">
           Название миссии: {mission?.mission?.name}
         </h2>
-        <div class="flex gap-4">
+        <div className="flex gap-4">
           <button onClick={handleToggle}>
             {isOpen ? (
               <i className="fa fa-angle-down text-xl" aria-hidden="true"></i>
@@ -33,10 +32,10 @@ const MissionItem = ({ mission, onDelete }) => {
             )}
           </button>
           <button onClick={handleEdit}>
-            <i class="fa fa-edit text-xl" aria-hidden="true"></i>
+            <i className="fa fa-edit text-xl" aria-hidden="true"></i>
           </button>
           <button onClick={handleDelete}>
-            <i class="fa fa-trash text-xl text-red-500" aria-hidden="true"></i>
+            <i className="fa fa-trash text-xl text-red-500" aria-hidden="true"></i>
           </button>
         </div>
       </div>
