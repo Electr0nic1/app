@@ -62,6 +62,7 @@ const MissionEdit = () => {
       navigate('/missions'); // Перенаправляем на страницу Missions после успешного сохранения
     } catch (error) {
       console.error('Error updating mission:', error);
+      return error;
     }
   };
 

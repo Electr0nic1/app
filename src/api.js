@@ -391,8 +391,6 @@ const api = {
     }
   },
 
-
-
   async updateMission(mission) {
     try {
       const token = localStorage.getItem("token");
@@ -468,16 +466,84 @@ const api = {
 
 
 
+  async deleteMission(id) {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        const error = new Error(
+          "Токен не найден. Пользователь не авторизован.",
+        );
+        error.error = {
+          code: 401,
+          message: "Токен не предоставлен",
+        };
+        throw error;
+      }
+
+      const response = await fetch(`${url}/lunar-missions/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      });
 
 
+      if (!response.ok) {
+        let errorMessage;
+        let errorCode;
+        let errors = null;
 
+        // Check if response is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          try {
+            const responseData = await response.json();
+            if (response.status === 401) {
+              errorMessage =
+                responseData.message ||
+                `Update failed with status ${response.status}`;
+              errorCode = responseData.code;
+            } else {
+              errorMessage =
+                responseData.error?.message ||
+                `Update failed with status ${response.status}`;
+              errorCode = responseData.error?.code;
+              errors = responseData.error?.errors;
+            }
+            const error = new Error(errorMessage);
+            error.error = {
+              code: errorCode,
+              message: errorMessage,
+              errors: errors,
+            };
+            console.log(error);
+            throw error;
+          } catch (jsonError) {
+            console.error("Error parsing JSON:", jsonError);
+            throw new Error(
+              `Unexpected response from server: ${response.status} ${response.statusText}`,
+            );
+          }
+        } else {
+          errorMessage = `Delete failed with status ${response.status}`;
+          const error = new Error(errorMessage);
+          error.error = {
+            code: response.status,
+            message: errorMessage,
+          };
+          console.log(error);
+          throw error;
+        }
+      }
 
-  async deleteMission(token, missionId) {
-    return await fetch(`${url}/missions/${missionId}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      return;
+    } catch (error) {
+      console.error("Error fetching mission data:", error);
+      throw error;
+    }
   },
-};
+}
 
 export default api;

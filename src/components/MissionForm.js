@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
+import { ErrorMessage } from "../url";
 
 const MissionForm = ({ mission, onChange, handleSubmit }) => {
+  const [errors, setErrors] = useState({});
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log("handleChange:", name, value);
+    setErrors(prevErrors => ({ ...prevErrors, [`mission.${name}`]: null }))
+
     const fieldParts = name.split('?.');
 
     onChange((prevMission) => {
@@ -37,6 +41,13 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
     });
   };
 
+  const handleClick = async () => {
+    const validationErrors = await handleSubmit();
+    if (validationErrors && validationErrors?.error?.errors) {
+      setErrors(validationErrors.error.errors);
+    }
+  };
+
   return (
     <>
       <div className="container mt-10 sm:mx-auto sm:w-full sm:max-w-2xl">
@@ -46,12 +57,17 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
               Название миссии
             </label>
             <input
-              className="p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${errors?.['mission.name'] ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}`}
               type="text"
               name="name"
-              value={mission?.mission?.name || ''}
+              value={mission.mission.name || ''}
               onChange={handleChange}
             />
+            {errors?.['mission.name'] && (
+                <p className="text-red-500 text-xs italic">
+                  {ErrorMessage(errors['mission.name'])}
+                </p>
+              )}
           </div>
           <div className="px-6">
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Дата запуска</p>
@@ -210,7 +226,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
         <div className="my-10">
           <button
             type="submit"
-            onClick={handleSubmit}
+            onClick={handleClick}
             className="flex w-full justify-center rounded-md bg-sky-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
           >
             Сохранить

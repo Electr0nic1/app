@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ErrorMessage } from "../url";
 
 const RegistrationForm = ({ onRegister }) => {
-  // onRegister вместо onSubmit
   const [backendValidationErrors, setBackendValidationErrors] = useState({});
   const [formData, setFormData] = useState({
     first_name: "",

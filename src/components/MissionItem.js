@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const MissionItem = ({ mission, onDelete }) => {
+const MissionItem = ({ mission, handleDeleteMission }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -10,7 +10,7 @@ const MissionItem = ({ mission, onDelete }) => {
   };
 
   const handleDelete = () => {
-    onDelete(mission.id);
+    handleDeleteMission(mission.mission.id);
   };
 
   const handleEdit = () => {
