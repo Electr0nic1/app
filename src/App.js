@@ -10,7 +10,7 @@ import Missions from './pages/Missions';
 import MoonOrder from './pages/MoonOrder';
 import SpaceFlights from './pages/SpaceFlights';
 import FlightAdd from './pages/FlightAdd';
-// import Search from './pages/Search';
+import Search from './pages/Search';
 import MissionAdd from './pages/MissionAdd';
 import MissionEdit from './pages/MissionEdit';
 
@@ -46,9 +46,16 @@ const App = () => {
               </RequireAuth>
             }
           />
-          {/*
-        <Route path="/search" element={<RequireAuth><Search /></RequireAuth>} />
-        */}
+
+          <Route
+            path="/search"
+            element={
+              <RequireAuth>
+                <Search />
+              </RequireAuth>
+            }
+          />
+
           <Route
             path="/flights"
             element={

@@ -67,7 +67,7 @@ const Header = () => {
                 Рейсы
               </Link>
               <Link
-                to="/"
+                to="/search"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Поиск

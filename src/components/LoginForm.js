@@ -28,7 +28,6 @@ const LoginForm = () => {
 
     try {
       const responseData = await api.login(formData); // Запрос на логин к бэкенду
-      console.log('Login successful:', responseData);
 
       // Сохраняем токен в localStorage или другом месте
       await login(responseData.data);
