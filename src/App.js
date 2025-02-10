@@ -7,7 +7,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Gagarin from './pages/Gagarin';
 import Missions from './pages/Missions';
-// import MoonOrder from './pages/MoonOrder';
+import MoonOrder from './pages/MoonOrder';
 import SpaceFlights from './pages/SpaceFlights';
 import FlightAdd from './pages/FlightAdd';
 // import Search from './pages/Search';

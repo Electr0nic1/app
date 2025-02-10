@@ -690,6 +690,48 @@ const api = {
     }
   },
 
+  async addMoonOrder(data) {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        const error = new Error(
+          "Токен не найден. Пользователь не авторизован.",
+        );
+        error.error = {
+          code: 401,
+          message: "Токен не предоставлен",
+        };
+        throw error;
+      }
+
+      const response = await fetch(`${url}/lunar-watermark`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: data, 
+      });
+
+      if (!response.ok) {
+        const errorMessage = `Request failed with status ${response.status} ${response.statusText}`;
+        const error = new Error(errorMessage);
+        error.error = {
+          code: response.status,
+          message: errorMessage,
+        };
+        console.log(error);
+        throw error;
+      }
+
+      const imageBlob = await response.blob();
+      return imageBlob;
+    } catch (error) {
+      console.error("Error fetching Gagarin data:", error);
+      throw error;
+    }
+  },
+
 
 }
 
