@@ -1,20 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';
 import RequireAuth from './auth/RequireAuth';
+
 import Home from './pages/Home';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Gagarin from './pages/Gagarin';
 import Missions from './pages/Missions';
-import MoonOrder from './pages/MoonOrder';
-import SpaceFlights from './pages/SpaceFlights';
-import FlightAdd from './pages/FlightAdd';
-import Search from './pages/Search';
 import MissionAdd from './pages/MissionAdd';
 import MissionEdit from './pages/MissionEdit';
+import SpaceFlights from './pages/SpaceFlights';
+import FlightAdd from './pages/FlightAdd';
+import MoonOrder from './pages/MoonOrder';
+import Search from './pages/Search';
 
 const App = () => {
+  const { user, loading } = useAuth;
+
+  if (loading) {
+    // Отображаем что-то, пока идет загрузка
+    return <div>Загрузка приложения...</div>;
+  }
+
   return (
     <AuthProvider>
       <Router>
@@ -39,23 +47,21 @@ const App = () => {
             }
           />
           <Route
-            path="/moon-order"
+            path="/add-mission"
             element={
               <RequireAuth>
-                <MoonOrder />
+                <MissionAdd />
               </RequireAuth>
             }
           />
-
           <Route
-            path="/search"
+            path="/edit-mission/:id"
             element={
               <RequireAuth>
-                <Search />
+                <MissionEdit />
               </RequireAuth>
             }
           />
-
           <Route
             path="/flights"
             element={
@@ -73,18 +79,18 @@ const App = () => {
             }
           />
           <Route
-            path="/add-mission"
+            path="/moon-order"
             element={
               <RequireAuth>
-                <MissionAdd />
+                <MoonOrder />
               </RequireAuth>
             }
           />
           <Route
-            path="/edit-mission/:id"
+            path="/search"
             element={
               <RequireAuth>
-                <MissionEdit />
+                <Search />
               </RequireAuth>
             }
           />

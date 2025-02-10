@@ -12,7 +12,6 @@ const SpaceFlights = () => {
     const fetchData = async () => {
       try {
         const response = await api.getSpaceFlights();
-        console.log(response)
         setSpaceFlights(response?.data || []);
       } catch (error) {
         console.log('Error fetching Missions data in component:', error);
@@ -43,8 +42,8 @@ const SpaceFlights = () => {
             {spaceFlights &&
               Array.isArray(spaceFlights) &&
               spaceFlights.map((spaceFlight, index) => (
-                <div className='w-[49%]'>
-                <SpaceFlightItem key={index} spaceFlight={spaceFlight} />
+                <div className='w-[49%]' key={index} >
+                <SpaceFlightItem spaceFlight={spaceFlight} />
                 </div>
               ))}
           </div>

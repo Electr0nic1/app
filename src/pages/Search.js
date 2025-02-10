@@ -5,8 +5,6 @@ import Header from '../components/Header';
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
@@ -14,19 +12,13 @@ const Search = () => {
 
   const handleSearch = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
 
     try {
       const results = await api.search(searchTerm);
-      console.log(results)
       setSearchResults(results);
     } catch (error) {
       console.error('Search error:', error);
-      setError('Произошла ошибка при выполнении поиска.');
       setSearchResults([]);
-    } finally {
-      setLoading(false);
     }
   };
 
