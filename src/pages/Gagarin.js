@@ -10,7 +10,6 @@ const Gagarin = () => {
     const fetchData = async () => {
       try {
         const data = await api.getGagarin();
-        console.log(data);
         setGagarinData(data);
       } catch (error) {
         console.log('Error fetching Gagarin data in component:', error);
