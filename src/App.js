@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider, useAuth } from './AuthContext';
+import { AuthProvider } from './AuthContext';
 import RequireAuth from './auth/RequireAuth';
 
 import Home from './pages/Home';
@@ -16,13 +16,6 @@ import MoonOrder from './pages/MoonOrder';
 import Search from './pages/Search';
 
 const App = () => {
-  const { user, loading } = useAuth;
-
-  if (loading) {
-    // Отображаем что-то, пока идет загрузка
-    return <div>Загрузка приложения...</div>;
-  }
-
   return (
     <AuthProvider>
       <Router>

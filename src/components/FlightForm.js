@@ -7,7 +7,6 @@ const FlightForm = ({ flight, onChange, handleSubmit }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value)
     setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
     onChange({ ...flight, [name]: value });
   };

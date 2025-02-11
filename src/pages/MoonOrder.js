@@ -63,7 +63,7 @@ const MoonOrder = () => {
                 className="text-base font-semibold leading-7 text-sky-600 text-xl"
                 htmlFor="text"
               >
-                Текст для водяного знака
+                Текст для водяного знака (не менее 10 и не более 20 символов)
               </label>
               <input
                 required
@@ -81,7 +81,7 @@ const MoonOrder = () => {
                 className="text-base font-semibold leading-7 text-sky-600 text-xl"
                 htmlFor="image"
               >
-                Загрузить изображение
+                Загрузить изображение (формат jpg)
               </label>
               <input
                 required

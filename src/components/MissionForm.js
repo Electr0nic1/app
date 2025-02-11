@@ -7,7 +7,6 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setErrors((prevErrors) => ({ ...prevErrors, [`mission.${name}`]: null }));
 
     const fieldParts = name.split('?.');
@@ -311,7 +310,6 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                       value={mission?.mission?.spacecraft?.crew?.[0]?.name || ''}
                       onChange={handleChange}
                     />
-                    {console.log('errors:', errors)}
                     {errors?.['mission.spacecraft.crew.0.name'] && (
                       <p className="text-red-500 text-xs italic">
                         {ErrorMessage(errors['mission.spacecraft.crew.0.name'])}
