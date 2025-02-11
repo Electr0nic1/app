@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Предполагается, что у вас есть api.js
-import { ErrorMessage } from '../url';
+import api from '../api';
 import AuthContext from '../AuthContext';
+import { inputClasses } from '../utils';
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);
@@ -27,21 +27,16 @@ const LoginForm = () => {
     setBackendValidationErrors({});
 
     try {
-      const responseData = await api.login(formData); // Запрос на логин к бэкенду
+      const responseData = await api.login(formData);
 
-      // Сохраняем токен в localStorage или другом месте
       await login(responseData.data);
 
-      // Перенаправляем пользователя на защищенную страницу
-      setTimeout(() => {
-        navigate('/gagarin'); // Или на другую страницу, куда нужно перенаправить после логина
-      }, 0);
+      navigate('/gagarin');
     } catch (err) {
       if (err?.error?.errors) {
         setBackendValidationErrors(err.error.errors);
       }
 
-      // Если есть общее сообщение об ошибке, показываем его
       if (err && err?.error?.message) {
         setError(err.error.message);
       } else if (err) {
@@ -71,15 +66,11 @@ const LoginForm = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${
-                    backendValidationErrors.email
-                      ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                      : 'ring-gray-300 focus:ring-sky-600'
-                  }  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                  className={inputClasses(backendValidationErrors && backendValidationErrors.email)}
                 />
                 {backendValidationErrors.email && (
                   <p className="text-red-500 text-xs italic">
-                    {ErrorMessage(backendValidationErrors.email)}
+                    {backendValidationErrors.email}
                   </p>
                 )}
               </div>
@@ -101,21 +92,17 @@ const LoginForm = () => {
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${
-                    backendValidationErrors.password
-                      ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                      : 'ring-gray-300 focus:ring-sky-600'
-                  }  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                  className={inputClasses(backendValidationErrors && backendValidationErrors.password)}
                 />
                 {backendValidationErrors.password && (
                   <p className="text-red-500 text-xs italic">
-                    {ErrorMessage(backendValidationErrors.password)}
+                    {backendValidationErrors.password}
                   </p>
                 )}
               </div>
             </div>
 
-            {error && <p className="text-red-500 text-xs italic">{ErrorMessage(error)}</p>}
+            {error && <p className="text-red-500 text-xs italic">{error}</p>}
 
             <div>
               <button

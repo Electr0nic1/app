@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ErrorMessage } from "../url";
+import { inputClasses } from "../utils";
 
 const RegistrationForm = ({ onRegister }) => {
-  const [backendValidationErrors, setBackendValidationErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -14,20 +14,21 @@ const RegistrationForm = ({ onRegister }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setBackendValidationErrors({});
+    setErrors({});
 
-    // Отправляем данные на сервер через функцию, переданную из Registration
-    const err = await onRegister(formData); // onRegister вместо handleRegistration
+    const err = await onRegister(formData);
 
     if (err && err?.error?.errors) {
-      setBackendValidationErrors(err.error.errors);
+      setErrors(err.error.errors);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -59,11 +60,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="text"
                 value={formData.last_name}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.last_name ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.last_name)}
               />
-              {backendValidationErrors.last_name && (
+              {errors.last_name && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.last_name)}
+                  {errors.last_name}
                 </p>
               )}
             </div>
@@ -82,11 +83,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="text"
                 value={formData.first_name}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.first_name ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.first_name)}
               />
-              {backendValidationErrors.first_name && (
+              {errors.first_name && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.first_name)}
+                  {errors.first_name}
                 </p>
               )}
             </div>
@@ -105,11 +106,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="text"
                 value={formData.patronymic}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.patronymic ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.patronymic)}
               />
-              {backendValidationErrors.patronymic && (
+              {errors.patronymic && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.patronymic)}
+                  {errors.patronymic}
                 </p>
               )}
             </div>
@@ -128,11 +129,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.email ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.email)}
               />
-              {backendValidationErrors.email && (
+              {errors.email && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.email)}
+                  {errors.email}
                 </p>
               )}
             </div>
@@ -151,11 +152,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="date"
                 value={formData.birth_date}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.birth_date ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.birth_date)}
               />
-              {backendValidationErrors.birth_date && (
+              {errors.birth_date && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.birth_date)}
+                  {errors.birth_date}
                 </p>
               )}
             </div>
@@ -176,11 +177,11 @@ const RegistrationForm = ({ onRegister }) => {
                 type="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${backendValidationErrors.password ? "border-red-500 ring-red-500 focus:ring-red-500" : "ring-gray-300 focus:ring-sky-600"}  placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6`}
+                className={inputClasses(errors && errors.password)}
               />
-              {backendValidationErrors.password && (
+              {errors.password && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(backendValidationErrors.password)}
+                  {errors.password}
                 </p>
               )}
             </div>

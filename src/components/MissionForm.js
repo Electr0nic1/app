@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { inputClasses, getNestedValue } from '../utils';
 import { ErrorMessage } from '../url';
+
 
 const MissionForm = ({ mission, onChange, handleSubmit }) => {
   const [errors, setErrors] = useState({});
@@ -46,6 +48,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
     if (validationErrors && validationErrors?.error?.errors) {
       setErrors(validationErrors.error.errors);
     }
+    console.log(errors)
   };
 
   return (
@@ -57,28 +60,20 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
               Название миссии
             </label>
             <input
-              className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                errors?.['mission.name']
-                  ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                  : 'ring-gray-300 focus:ring-sky-600'
-              }`}
+              className={inputClasses(errors && errors?.['mission.name'])}
               type="text"
               name="name"
               value={mission.mission.name || ''}
               onChange={handleChange}
             />
             {errors?.['mission.name'] && (
-              <p className="text-red-500 text-xs italic">{ErrorMessage(errors['mission.name'])}</p>
+              <p className="text-red-500 text-xs italic">{errors['mission.name']}</p>
             )}
           </div>
           <div className="px-6">
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Дата запуска</p>
             <input
-              className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                errors?.['mission.launch_details.launch_date']
-                  ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                  : 'ring-gray-300 focus:ring-sky-600'
-              }`}
+              className={inputClasses(errors && errors?.['mission.launch_details.launch_date'])}
               type="date"
               name="launch_details?.launch_date"
               value={mission?.mission?.launch_details?.launch_date || ''}
@@ -86,16 +81,12 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
             />
             {errors?.['mission.launch_details.launch_date'] && (
               <p className="text-red-500 text-xs italic">
-                {ErrorMessage(errors['mission.launch_details.launch_date'])}
+                {errors['mission.launch_details.launch_date']}
               </p>
             )}
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Дата посадки</p>
             <input
-              className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                errors?.['mission.landing_details.landing_date']
-                  ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                  : 'ring-gray-300 focus:ring-sky-600'
-              }`}
+              className={inputClasses(errors && errors?.['mission.landing_details.landing_date'])}
               type="date"
               name="landing_details?.landing_date"
               value={mission?.mission?.landing_details?.landing_date || ''}
@@ -103,7 +94,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
             />
             {errors?.['mission.landing_details.landing_date'] && (
               <p className="text-red-500 text-xs italic">
-                {ErrorMessage(errors['mission.landing_details.landing_date'])}
+                {errors['mission.landing_details.landing_date']}
               </p>
             )}
             <div className="mt-6 border-t border-gray-100">
@@ -114,11 +105,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   </label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.launch_details.launch_site.name']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.launch_details.launch_site.name'])}
                       type="text"
                       name="launch_details?.launch_site?.name"
                       value={mission?.mission?.launch_details?.launch_site?.name || ''}
@@ -126,7 +113,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.launch_details.launch_site.name'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors['mission.launch_details.launch_site.name'])}
+                        {errors['mission.launch_details.launch_site.name']}
                       </p>
                     )}
                   </div>
@@ -135,11 +122,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   <label className="text-sm font-medium leading-6 text-gray-900">Широта</label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.launch_details.launch_site.location.latitude']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.launch_details.launch_site.location.latitude'])}
                       type="number"
                       name="launch_details?.launch_site?.location?.latitude"
                       value={
@@ -149,9 +132,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.launch_details.launch_site.location.latitude'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(
-                          errors['mission.launch_details.launch_site.location.latitude'],
-                        )}
+                        {errors['mission.launch_details.launch_site.location.latitude']}
                       </p>
                     )}
                   </div>
@@ -160,11 +141,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   <label className="text-sm font-medium leading-6 text-gray-900">Долгота</label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.launch_details.launch_site.location.longitude']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.launch_details.launch_site.location.longitude'])}
                       type="number"
                       name="launch_details?.launch_site?.location?.longitude"
                       value={
@@ -174,9 +151,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.launch_details.launch_site.location.longitude'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(
-                          errors['mission.launch_details.launch_site.location.longitude'],
-                        )}
+                        {errors['mission.launch_details.launch_site.location.longitude']}
                       </p>
                     )}
                   </div>
@@ -187,11 +162,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   </label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.landing_details.landing_site.name']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.landing_details.landing_site.name'])}
                       type="text"
                       name="landing_details?.landing_site?.name"
                       value={mission?.mission?.landing_details?.landing_site?.name || ''}
@@ -199,7 +170,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.landing_details.landing_site.name'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors['mission.landing_details.landing_site.name'])}
+                        {errors['mission.landing_details.landing_site.name']}
                       </p>
                     )}
                   </div>
@@ -208,11 +179,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   <label className="text-sm font-medium leading-6 text-gray-900">Широта</label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading- 6 ${
-                        errors?.['mission.landing_details.landing_site.coordinates.latitude']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.landing_details.landing_site.coordinates.latitude'])}
                       type="number"
                       name="landing_details?.landing_site?.coordinates?.latitude"
                       value={
@@ -222,9 +189,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.landing_details.landing_site.coordinates.latitude'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(
-                          errors['mission.landing_details.landing_site.coordinates.latitude'],
-                        )}
+                        {errors['mission.landing_details.landing_site.coordinates.latitude']}
                       </p>
                     )}
                   </div>
@@ -233,11 +198,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   <label className="text-sm font-medium leading-6 text-gray-900">Долгота</label>
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.landing_details.landing_site.coordinates.longitude']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.landing_details.landing_site.coordinates.longitude'])}
                       type="number"
                       name="landing_details?.landing_site?.coordinates?.longitude"
                       value={
@@ -248,9 +209,9 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                     />
                     {errors?.['mission.landing_details.landing_site.coordinates.longitude'] && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(
-                          errors['mission.landing_details.landing_site.coordinates.longitude'],
-                        )}
+                        {
+                          errors['mission.landing_details.landing_site.coordinates.longitude']
+                        }
                       </p>
                     )}
                   </div>
@@ -261,11 +222,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
             <div className="px-4 sm:px-0">
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Лунный модуль: </p>
               <input
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                  errors?.['mission.spacecraft.lunar_module']
-                    ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                    : 'ring-gray-300 focus:ring-sky-600'
-                }`}
+                className={inputClasses(errors && errors?.['mission.spacecraft.lunar_module'])}
                 type="text"
                 name="spacecraft?.lunar_module"
                 value={mission?.mission?.spacecraft?.lunar_module || ''}
@@ -273,16 +230,12 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
               />
               {errors?.['mission.spacecraft.lunar_module'] && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(errors['mission.spacecraft.lunar_module'])}
+                  {errors['mission.spacecraft.lunar_module']}
                 </p>
               )}
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Управляющий модуль:</p>
               <input
-                className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                  errors?.['mission.spacecraft.command_module']
-                    ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                    : 'ring-gray-300 focus:ring-sky-600'
-                }`}
+                className={inputClasses(errors && errors?.['mission.spacecraft.command_module'])}
                 type="text"
                 name="spacecraft?.command_module"
                 value={mission?.mission?.spacecraft?.command_module || ''}
@@ -290,7 +243,7 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
               />
               {errors?.['mission.spacecraft.command_module'] && (
                 <p className="text-red-500 text-xs italic">
-                  {ErrorMessage(errors['mission.spacecraft.command_module'])}
+                  {errors['mission.spacecraft.command_module']}
                 </p>
               )}
             </div>
@@ -300,30 +253,22 @@ const MissionForm = ({ mission, onChange, handleSubmit }) => {
                   <div className="flex flex-col gap-x-4 items-center">
                     <p className="text-sm font-semibold text-gray-900">ФИО</p>
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.spacecraft.crew[0].name']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(getNestedValue(errors, 'mission.spacecraft.crew[0].name'))}
                       type="text"
                       name="spacecraft?.crew[0]?.name"
                       value={mission?.mission?.spacecraft?.crew?.[0]?.name || ''}
                       onChange={handleChange}
                     />
-                    {errors?.['mission.spacecraft.crew.0.name'] && (
+                    {getNestedValue(errors, 'mission.spacecraft.crew[0].name') && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors['mission.spacecraft.crew.0.name'])}
+                        {getNestedValue(errors, 'mission.spacecraft.crew[0].name')}
                       </p>
                     )}
                   </div>
                   <div className="flex flex-col gap-x-4 items-center">
                     <p className="mt-1 text-xs text-gray-500">Должность</p>
                     <input
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.['mission.spacecraft.crew[0].role']
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors?.['mission.spacecraft.crew.0.role'])}
                       type="text"
                       name="spacecraft?.crew[0]?.role"
                       value={mission?.mission?.spacecraft?.crew?.[0]?.role || ''}

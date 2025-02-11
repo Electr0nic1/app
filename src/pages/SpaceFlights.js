@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 const SpaceFlights = () => {
   const [spaceFlights, setSpaceFlights] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,9 +13,8 @@ const SpaceFlights = () => {
         const response = await api.getSpaceFlights();
         setSpaceFlights(response?.data || []);
       } catch (error) {
-        console.log('Error fetching Missions data in component:', error);
-      } finally {
-        setLoading(false);
+        console.error('Error fetching SpaceFlights data in component:', error);
+        throw error;
       }
     };
 
@@ -26,11 +24,8 @@ const SpaceFlights = () => {
   return (
     <>
       <Header />
-      {loading ? (
-        <h2>Загрузка...</h2>
-      ) : (
-        <div className='container mt-10 sm:mx-auto sm:w-full sm:max-w-2xl'>
-            <div className='p-6 mb-10 sm:px-0 bg-white shadow-xl rounded'>
+      <div className="container mt-10 sm:mx-auto sm:w-full sm:max-w-2xl">
+        <div className="p-6 mb-10 sm:px-0 bg-white shadow-xl rounded">
           <Link
             className="bg-sky-500 text-white py-2 px-2 rounded shadow-md hover:bg-sky-600 mb-4"
             to="/add-flight"
@@ -42,15 +37,19 @@ const SpaceFlights = () => {
             {spaceFlights &&
               Array.isArray(spaceFlights) &&
               spaceFlights.map((spaceFlight, index) => (
-                <div className='w-[49%]' key={index} >
-                <SpaceFlightItem spaceFlight={spaceFlight} />
+                <div className="w-[49%]" key={index}>
+                  <SpaceFlightItem spaceFlight={spaceFlight} />
                 </div>
               ))}
           </div>
-          </div>
-          <Link className="bg-sky-500 text-white py-2 px-2 rounded shadow-md text-xs hover:bg-sky-600" to='/gagarin'>На главную страницу</Link>
         </div>
-      )}
+        <Link
+          className="bg-sky-500 text-white py-2 px-2 rounded shadow-md text-xs hover:bg-sky-600"
+          to="/gagarin"
+        >
+          На главную страницу
+        </Link>
+      </div>
     </>
   );
 };

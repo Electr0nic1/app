@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ErrorMessage } from '../url';
+import { inputClasses } from '../utils';
 
 const FlightForm = ({ flight, onChange, handleSubmit }) => {
   const [errors, setErrors] = useState({});
@@ -30,18 +30,14 @@ const FlightForm = ({ flight, onChange, handleSubmit }) => {
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
                       onChange={handleChange}
-                      type='text'
-                      name='flight_number'
+                      type="text"
+                      name="flight_number"
                       value={flight.flight_number || ''}
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.flight_number
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors.flight_number)}
                     />
                     {errors?.flight_number && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors.flight_number)}
+                        {errors.flight_number}
                       </p>
                     )}
                   </div>
@@ -53,18 +49,14 @@ const FlightForm = ({ flight, onChange, handleSubmit }) => {
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
                       onChange={handleChange}
-                      type='text'
-                      name='destination'
+                      type="text"
+                      name="destination"
                       value={flight.destination || ''}
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.destination
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors.destination)}
                     />
-                    {errors?.destination && (
+                    {errors && errors.destination && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors.destination)}
+                        {errors.destination}
                       </p>
                     )}
                   </div>
@@ -76,18 +68,14 @@ const FlightForm = ({ flight, onChange, handleSubmit }) => {
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
                       onChange={handleChange}
-                      type='date'
-                      name='launch_date'
+                      type="date"
+                      name="launch_date"
                       value={flight.launch_date || ''}
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.launch_date
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors.launch_date)}
                     />
-                    {errors?.launch_date && (
+                    {errors && errors.launch_date && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors.launch_date)}
+                        {errors.launch_date}
                       </p>
                     )}
                   </div>
@@ -99,18 +87,14 @@ const FlightForm = ({ flight, onChange, handleSubmit }) => {
                   <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                     <input
                       onChange={handleChange}
-                      type='number'
-                      name='seats_available'
+                      type="number"
+                      name="seats_available"
                       value={flight.seats_available || ''}
-                      className={`p-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-                        errors?.seats_available
-                          ? 'border-red-500 ring-red-500 focus:ring-red-500'
-                          : 'ring-gray-300 focus:ring-sky-600'
-                      }`}
+                      className={inputClasses(errors && errors.seats_available)}
                     />
-                    {errors?.seats_available && (
+                    {errors && errors.seats_available && (
                       <p className="text-red-500 text-xs italic">
-                        {ErrorMessage(errors.seats_available)}
+                        {errors.seats_available}
                       </p>
                     )}
                   </div>

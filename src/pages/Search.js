@@ -42,7 +42,6 @@ const Search = () => {
                 />
               </div>
             </div>
-
             <div>
               <button
                 type="submit"
@@ -117,7 +116,7 @@ const Search = () => {
                     {result.crew.map((member) => (
                       <div key={member.name}>
                         <p className="mr-2">ФИО - {member.name}</p>
-                        <p className="mr-2">Роль -  {member.role}</p>
+                        <p className="mr-2">Роль - {member.role}</p>
                       </div>
                     ))}
                   </div>

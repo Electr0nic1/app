@@ -19,7 +19,7 @@ const MoonOrder = () => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
     if (selectedImage) {
-      setImagePreview(URL.createObjectURL(selectedImage)); // Создаем URL для превью
+      setImagePreview(URL.createObjectURL(selectedImage));
     } else {
       setImagePreview(null);
     }

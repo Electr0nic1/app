@@ -19,12 +19,9 @@ const FlightAdd = () => {
 
   const handleSubmit = async () => {
     try {
-      console.log('Data being sent:', flight);
       await api.addFlight(flight);
       navigate('/flights');
     } catch (error) {
-      console.error('Error updating flight:', error);
-
       return error;
     }
   };
